@@ -1,10 +1,9 @@
-package postcollector.presentation.postcollector;
+package postcollector.presentation.controller;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import postcollector.domain.Post;
-import postcollector.presentation.controller.PostCollector;
 import postcollector.presentation.postcollector.cs.CsPostCollector;
 
 public class PostCollectorScanner {

@@ -2,7 +2,6 @@ package postcollector.presentation.controller;
 
 import java.util.List;
 import postcollector.domain.Post;
-import postcollector.presentation.postcollector.PostCollectorScanner;
 
 public class PostCollectorController {
 
@@ -12,7 +11,7 @@ public class PostCollectorController {
             List<Post> newPosts = postCollectorScanner.collectNewPosts();
 
             for (Post post : newPosts) {
-                System.out.printf("%s\t%s%n", post.getTitle(), post.getUrl());
+                System.out.printf("%s\t%s\t%s%n", post.getTitle(), post.getUrl(), post.getWritingDate());
             }
         } catch (Exception e) {
             System.out.printf("[ERROR] %s%n", e.getMessage());
