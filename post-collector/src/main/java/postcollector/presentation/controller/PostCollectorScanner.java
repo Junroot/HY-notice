@@ -1,5 +1,6 @@
 package postcollector.presentation.controller;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,9 +15,9 @@ public class PostCollectorScanner {
         postCollectors = List.of(new CsPostCollector());
     }
 
-    public List<Post> collectNewPosts() {
+    public List<Post> collectNewPosts(final LocalDate fromDate) {
         return postCollectors.parallelStream()
-            .map(PostCollector::collectNewPosts)
+            .map(postCollector -> postCollector.collectNewPosts(fromDate))
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     }

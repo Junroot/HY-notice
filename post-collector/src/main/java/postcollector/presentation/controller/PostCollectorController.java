@@ -1,5 +1,6 @@
 package postcollector.presentation.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import postcollector.domain.Post;
 
@@ -8,7 +9,7 @@ public class PostCollectorController {
     public static void run() {
         try {
             PostCollectorScanner postCollectorScanner = new PostCollectorScanner();
-            List<Post> newPosts = postCollectorScanner.collectNewPosts();
+            List<Post> newPosts = postCollectorScanner.collectNewPosts(LocalDate.now());
 
             for (Post post : newPosts) {
                 System.out.printf("%s\t%s\t%s%n", post.getTitle(), post.getUrl(), post.getWritingDate());

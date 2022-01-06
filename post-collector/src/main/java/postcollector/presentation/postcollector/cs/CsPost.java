@@ -2,6 +2,7 @@ package postcollector.presentation.postcollector.cs;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import postcollector.domain.Board;
 import postcollector.domain.Post;
 
 public class CsPost {
@@ -22,6 +23,10 @@ public class CsPost {
     }
 
     public boolean isNotNotice() {
+        return !isNotice();
+    }
+
+    public boolean isNotice() {
         try {
             int intValue = Integer.parseInt(number);
             return false;
@@ -30,7 +35,7 @@ public class CsPost {
         }
     }
 
-    public Post convertToPost() {
-        return new Post(title, url, LocalDate.parse(writingDate, DATE_TIME_FORMATTER));
+    public Post convertToPost(final Board board) {
+        return new Post(title, board, url, LocalDate.parse(writingDate, DATE_TIME_FORMATTER));
     }
 }
