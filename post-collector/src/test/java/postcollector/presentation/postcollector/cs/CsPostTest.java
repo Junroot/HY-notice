@@ -2,9 +2,12 @@ package postcollector.presentation.postcollector.cs;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import postcollector.domain.Board;
+import postcollector.domain.Post;
 
 class CsPostTest {
 
@@ -33,5 +36,16 @@ class CsPostTest {
     void isNotice() {
         assertThat(normalPost.isNotice()).isFalse();
         assertThat(noticePost.isNotice()).isTrue();
+    }
+
+    @DisplayName("날짜 문자열을 DateTime으로 변환한다.")
+    @Test
+    void convert() {
+        CsPost csPost = new CsPost("1245", "제목",
+            "http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=29596&page=2&code=notice",
+            "21.03.24");
+        Post result = csPost.convert(Board.CS_INFO);
+
+        assertThat(result.getWritingDate()).isEqualTo(LocalDate.of(2021, 3, 24));
     }
 }

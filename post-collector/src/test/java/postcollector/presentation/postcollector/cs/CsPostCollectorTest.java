@@ -1,4 +1,4 @@
-package postcollector.presentation.postcollector;
+package postcollector.presentation.postcollector.cs;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -3,9 +3,10 @@ package postcollector.presentation.postcollector.cs;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import postcollector.domain.Board;
+import postcollector.domain.ConvertableToPost;
 import postcollector.domain.Post;
 
-public class CsPost {
+public class CsPost implements ConvertableToPost {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yy.MM.dd");
 
@@ -35,7 +36,8 @@ public class CsPost {
         }
     }
 
-    public Post convertToPost(final Board board) {
+    @Override
+    public Post convert(final Board board) {
         return new Post(title, board, url, LocalDate.parse(writingDate, DATE_TIME_FORMATTER));
     }
 }

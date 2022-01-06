@@ -9,7 +9,7 @@ import postcollector.presentation.postcollector.cs.CsPostCollector;
 
 public class PostCollectorScanner {
 
-    private final List<PostCollector> postCollectors;
+    private final List<PostCollector<?>> postCollectors;
 
     public PostCollectorScanner() {
         postCollectors = List.of(new CsPostCollector());

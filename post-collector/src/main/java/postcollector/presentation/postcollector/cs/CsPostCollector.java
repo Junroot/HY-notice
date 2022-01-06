@@ -1,12 +1,10 @@
 package postcollector.presentation.postcollector.cs;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
@@ -14,73 +12,59 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import postcollector.domain.Board;
-import postcollector.domain.Post;
 import postcollector.domain.Posts;
 import postcollector.exception.CollectingException;
-import postcollector.presentation.controller.PostCollector;
+import postcollector.presentation.postcollector.template.PaginationPostCollector;
 
-public class CsPostCollector implements PostCollector {
+public class CsPostCollector extends PaginationPostCollector<CsPost> {
 
     private static final String BASE_URL = "http://cs.hanyang.ac.kr/board";
-    private static final EnumMap<Board, String> urlFormats = new EnumMap<>(Board.class);
+    private static final EnumMap<Board, String> URL_FORMATS = new EnumMap<>(Board.class);
     private static final int POST_NUMBER_INDEX = 1;
     private static final int POST_TITLE_INDEX = 2;
     private static final int POST_WRITING_DATE_INDEX = 4;
 
     static {
-        urlFormats.put(Board.CS_INFO, "%s/info_board.php?ptype=&page=%d&code=notice");
-        urlFormats.put(Board.CS_JOB, "%s/job_board.php?ptype=&page=%d&code=job_board");
-        urlFormats.put(Board.CS_GRADUATION, "%s/gradu_board.php?ptype=&page=%d&code=gradu_board");
+        URL_FORMATS.put(Board.CS_INFO, "%s/info_board.php?ptype=&page=%d&code=notice");
+        URL_FORMATS.put(Board.CS_JOB, "%s/job_board.php?ptype=&page=%d&code=job_board");
+        URL_FORMATS.put(Board.CS_GRADUATE, "%s/gradu_board.php?ptype=&page=%d&code=gradu_board");
     }
 
     @Override
-    public List<Post> collectNewPosts(final LocalDate fromDate) {
-        Posts result = new Posts();
-        for (Board board : urlFormats.keySet()) {
-            result.addAll(collectNewPostsFromBoard(board, fromDate));
-        }
-
-        return result.getElements();
+    protected Predicate<CsPost> getDefaultPostFilter() {
+        return CsPost::isNotNotice;
     }
 
-    private Posts collectNewPostsFromBoard(final Board board, final LocalDate fromDate) {
-        Posts result = collectPosts(board, 1, CsPost::isNotice)
+    @Override
+    protected Map<Board, String> getUrlFormats() {
+        return URL_FORMATS;
+    }
+
+    @Override
+    protected Posts initiatePosts(final Board board, final LocalDate fromDate) {
+        return collectPosts(board, 1, CsPost::isNotice)
             .filterEqualOrAfter(fromDate);
-        for (int pageNumber = 1; ; pageNumber++) {
-            Posts posts = collectPosts(board, pageNumber, CsPost::isNotNotice)
-                .filterEqualOrAfter(fromDate);
-            if (posts.isEmpty()) {
-                break;
-            }
-            result.addAll(posts);
-        }
-        return result;
     }
 
-    private Posts collectPosts(final Board board, final int pageNumber,
-                               final Predicate<CsPost> filter) {
-        return collectAllCsPosts(board, pageNumber).stream()
-            .filter(filter)
-            .map(csPost -> csPost.convertToPost(board))
-            .collect(collectingAndThen(toList(), Posts::new));
+    @Override
+    protected List<CsPost> collectAllPostsInPage(final Board board, final int pageNumber)
+        throws IOException {
+        Document document = getDocument(board, pageNumber);
+        Elements posts = document.select("table.bbs_con > tbody > tr");
+        if (posts.size() == 0) {
+            throw new CollectingException("게시글을 찾을 수 없습니다.");
+        }
+
+        return posts.stream()
+            .map(this::convertFromElementToCsPost)
+            .collect(Collectors.toList());
+
     }
 
-    private List<CsPost> collectAllCsPosts(final Board board, final int pageNumber) {
-        try {
-            String urlFormat = urlFormats.get(board);
-            String url = String.format(urlFormat, BASE_URL, pageNumber);
-            Document document = Jsoup.connect(url).get();
-            Elements posts = document.select("table.bbs_con > tbody > tr");
-            if (posts.size() == 0) {
-                throw new CollectingException("게시글을 찾을 수 없습니다.");
-            }
-
-            return posts.stream()
-                .map(this::convertFromElementToCsPost)
-                .collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new CollectingException("요청을 보내는데 실패했습니다.");
-        }
+    private Document getDocument(final Board board, final int pageNumber) throws IOException {
+        String urlFormat = URL_FORMATS.get(board);
+        String url = String.format(urlFormat, BASE_URL, pageNumber);
+        return Jsoup.connect(url).get();
     }
 
     private CsPost convertFromElementToCsPost(final Element post) {

@@ -11,7 +11,7 @@ class PostTest {
     @DisplayName("게시글이 특정 날짜 이후인 경우에만 참을 반환한다.")
     @Test
     void isEqualOrAfter() {
-        Post post = new Post("제목", Board.CS_GRADUATION,
+        Post post = new Post("제목", Board.CS_GRADUATE,
             "http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=29596&page=2&code=notice",
             LocalDate.of(2022, 1, 1));
 
