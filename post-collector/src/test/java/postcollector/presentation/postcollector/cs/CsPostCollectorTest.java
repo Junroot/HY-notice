@@ -7,14 +7,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import org.jsoup.Jsoup;
-import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import postcollector.domain.Post;
-import postcollector.presentation.postcollector.cs.CsPostCollector;
+import postcollector.presentation.postcollector.httpconnection.CustomConnection;
 
 @DisplayName("한양대 컴퓨터소프트웨어학부 게시글 수집")
 class CsPostCollectorTest {
@@ -51,20 +50,6 @@ class CsPostCollectorTest {
             List<Post> posts = csPostCollector.collectNewPosts(LocalDate.of(2021, 11, 24));
 
             assertThat(posts).hasSize(12);
-        }
-    }
-
-    private static class CustomConnection extends HttpConnection {
-
-        private final Document document;
-
-        public CustomConnection(final Document document) {
-            this.document = document;
-        }
-
-        @Override
-        public Document get() {
-            return document;
         }
     }
 }

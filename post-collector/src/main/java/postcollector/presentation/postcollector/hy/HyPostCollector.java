@@ -2,6 +2,7 @@ package postcollector.presentation.postcollector.hy;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +24,19 @@ public class HyPostCollector extends PaginationPostCollector<HyPost> {
     private static final String BASE_URL_HEAD = "https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_sKeyType=title";
     private static final String BASE_URL_TAIL = "&_viewNotice_WAR_noticeportlet_sUserId=0&_viewNotice_WAR_noticeportlet_action=view";
     private static final EnumMap<Board, String> URL_FORMATS = new EnumMap<>(Board.class);
-    private static final Pattern URL_PATTERN = Pattern.compile("javascript:_viewNotice_WAR_noticeportlet_view_message\\((\\d+)\\);");
+    private static final Pattern URL_PATTERN = Pattern.compile(
+        "javascript:_viewNotice_WAR_noticeportlet_view_message\\((\\d+)\\);");
     private static final String POST_URL_FORMAT = "https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_action=view_message&_viewNotice_WAR_noticeportlet_messageId=%s";
+    private static final List<Board> BOARDS = Arrays.asList(Board.HY_GRADUATE, Board.HY_ADMISSION,
+        Board.HY_RECRUITMENT, Board.HY_SERVICE, Board.HY_PUBLIC, Board.HY_INDUSTRY,
+        Board.HY_EVENT, Board.HY_SCHOLARSHIP, Board.HY_CONFERENCE);
 
     static {
-        URL_FORMATS.put(Board.HY_GRADUATE, BASE_URL_HEAD
-            + "&_viewNotice_WAR_noticeportlet_sCategoryId=1&_viewNotice_WAR_noticeportlet_sCurPage=%d"
-            + BASE_URL_TAIL);
+        for (int i = 0; i < BOARDS.size(); i++) {
+            URL_FORMATS.put(BOARDS.get(i),
+                BASE_URL_HEAD + "&_viewNotice_WAR_noticeportlet_sCategoryId=" + (i + 1)
+                    + "&_viewNotice_WAR_noticeportlet_sCurPage=%d" + BASE_URL_TAIL);
+        }
     }
 
     @Override
