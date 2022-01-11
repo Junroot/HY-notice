@@ -1,10 +1,12 @@
 package postcollector;
 
-import postcollector.presentation.controller.PostCollectorController;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class PostCollectorApplication {
 
     public static void main(String[] args) {
-        PostCollectorController.run();
+        SpringApplication.run(PostCollectorApplication.class);
     }
 }
