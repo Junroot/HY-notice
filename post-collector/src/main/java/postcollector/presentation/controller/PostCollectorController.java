@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import postcollector.domain.CollectingMetaData;
@@ -31,9 +32,11 @@ public class PostCollectorController {
         this.postRepository = postRepository;
     }
 
+    @Scheduled(cron = "0 0/30 * * * ?")
     @Transactional
     public void collectAndSavePosts() {
         try {
+            System.out.println("[커맨드라인러너 시작]");
             List<Post> newPosts = collectNewPosts();
 
             for (Post post : newPosts) {
@@ -42,9 +45,10 @@ public class PostCollectorController {
             }
             postRepository.saveAll(newPosts);
             collectingMetaDataRepository.save(new CollectingMetaData((long) newPosts.size()));
-
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("[커맨드라인러너 끝]");
         }
     }
 
