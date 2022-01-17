@@ -15,8 +15,8 @@ class PostTest {
             "http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=29596&page=2&code=notice",
             LocalDate.of(2022, 1, 1));
 
-        assertThat(post.isEqualOrAfter(LocalDate.of(2021, 12, 31))).isTrue();
-        assertThat(post.isEqualOrAfter(LocalDate.of(2022, 1, 1))).isTrue();
-        assertThat(post.isEqualOrAfter(LocalDate.of(2022, 1, 2))).isFalse();
+        assertThat(post.isEqualOrAfterDate(LocalDate.of(2021, 12, 31))).isTrue();
+        assertThat(post.isEqualOrAfterDate(LocalDate.of(2022, 1, 1))).isTrue();
+        assertThat(post.isEqualOrAfterDate(LocalDate.of(2022, 1, 2))).isFalse();
     }
 }

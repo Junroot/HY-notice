@@ -10,6 +10,5 @@ public class PostCollectorApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PostCollectorApplication.class);
-        //TODO MySQL로 제대로 DB에 저장되는지 확인하기
     }
 }

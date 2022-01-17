@@ -31,7 +31,6 @@ public class Post {
     private String url;
     private LocalDate writingDate;
     @CreatedDate
-    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
     public Post(final String title, final Board board, final String url,
@@ -48,7 +47,7 @@ public class Post {
         this.writingDate = writingDate;
     }
 
-    public boolean isEqualOrAfter(final LocalDate localDate) {
+    public boolean isEqualOrAfterDate(final LocalDate localDate) {
         return writingDate.isAfter(localDate) || writingDate.isEqual(localDate);
     }
 }

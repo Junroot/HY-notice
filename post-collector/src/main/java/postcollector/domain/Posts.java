@@ -23,7 +23,7 @@ public class Posts {
 
     public Posts filterEqualOrAfter(final LocalDate localDate) {
         return elements.stream()
-            .filter(post -> post.isEqualOrAfter(localDate))
+            .filter(post -> post.isEqualOrAfterDate(localDate))
             .collect(collectingAndThen(toList(), Posts::new));
     }
 
