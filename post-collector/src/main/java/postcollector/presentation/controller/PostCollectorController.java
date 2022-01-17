@@ -20,7 +20,7 @@ public class PostCollectorController {
     public void collectAndSavePosts() {
         try {
             PostCollectorScanner postCollectorScanner = new PostCollectorScanner();
-            List<Post> newPosts = postCollectorScanner.collectNewPosts(LocalDate.of(2022,1,10));
+            List<Post> newPosts = postCollectorScanner.collectNewPosts(LocalDate.of(2022,1,17));
 
             for (Post post : newPosts) {
                 System.out.printf("%s\t%s\t%s%n", post.getTitle(), post.getUrl(), post.getWritingDate());

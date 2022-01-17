@@ -1,8 +1,10 @@
 package postcollector.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,8 +12,11 @@ import javax.persistence.Lob;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Post {
@@ -25,6 +30,9 @@ public class Post {
     @Column
     private String url;
     private LocalDate writingDate;
+    @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdAt;
 
     public Post(final String title, final Board board, final String url,
                 final LocalDate writingDate) {
