@@ -3,10 +3,10 @@ package postcollector.presentation.postcollector.cs;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import postcollector.domain.Board;
-import postcollector.domain.ConvertableToPost;
+import postcollector.domain.Postable;
 import postcollector.domain.Post;
 
-public class CsPost implements ConvertableToPost {
+public class CsPost implements Postable {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yy.MM.dd");
 

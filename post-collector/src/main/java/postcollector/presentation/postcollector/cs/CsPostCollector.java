@@ -11,11 +11,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 import postcollector.domain.Board;
 import postcollector.domain.Posts;
 import postcollector.exception.CollectingException;
 import postcollector.presentation.postcollector.template.PaginationPostCollector;
 
+@Component
 public class CsPostCollector extends PaginationPostCollector<CsPost> {
 
     private static final String BASE_URL = "http://cs.hanyang.ac.kr/board";

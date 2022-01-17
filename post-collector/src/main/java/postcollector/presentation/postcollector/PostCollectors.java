@@ -1,19 +1,18 @@
-package postcollector.presentation.controller;
+package postcollector.presentation.postcollector;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import postcollector.domain.Post;
-import postcollector.presentation.postcollector.cs.CsPostCollector;
-import postcollector.presentation.postcollector.hy.HyPostCollector;
 
-public class PostCollectorScanner {
+public class PostCollectors {
 
     private final List<PostCollector<?>> postCollectors;
 
-    public PostCollectorScanner() {
-        postCollectors = List.of(new CsPostCollector(), new HyPostCollector());
+    public PostCollectors(final List<PostCollector<?>> postCollectors) {
+        this.postCollectors = new ArrayList<>(postCollectors);
     }
 
     public List<Post> collectNewPosts(final LocalDate fromDate) {

@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import postcollector.domain.Board;
-import postcollector.domain.ConvertableToPost;
+import postcollector.domain.Postable;
 import postcollector.domain.Post;
 import postcollector.domain.Posts;
 import postcollector.exception.CollectingException;
-import postcollector.presentation.controller.PostCollector;
+import postcollector.presentation.postcollector.PostCollector;
 
-public abstract class PaginationPostCollector<T extends ConvertableToPost> implements PostCollector<T> {
+public abstract class PaginationPostCollector<T extends Postable> implements PostCollector<T> {
 
     @Override
     public List<Post> collectNewPosts(final LocalDate fromDate) {

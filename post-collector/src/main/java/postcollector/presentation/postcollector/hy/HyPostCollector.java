@@ -14,11 +14,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 import postcollector.domain.Board;
 import postcollector.domain.Posts;
 import postcollector.exception.CollectingException;
 import postcollector.presentation.postcollector.template.PaginationPostCollector;
 
+@Component
 public class HyPostCollector extends PaginationPostCollector<HyPost> {
 
     private static final String BASE_URL_HEAD = "https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_sKeyType=title";

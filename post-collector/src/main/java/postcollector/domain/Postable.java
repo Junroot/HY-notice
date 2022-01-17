@@ -1,6 +1,6 @@
 package postcollector.domain;
 
-public interface ConvertableToPost {
+public interface Postable {
 
     Post convert(Board board);
 }
