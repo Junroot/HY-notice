@@ -1,2 +1,4 @@
 rootProject.name = 'post-collector'
+include 'hy-notice-core'
+include 'hy-notice-client'
 

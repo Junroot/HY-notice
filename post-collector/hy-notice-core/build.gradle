@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'kr.junroot'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+
+
+test {
+    useJUnitPlatform()
+}

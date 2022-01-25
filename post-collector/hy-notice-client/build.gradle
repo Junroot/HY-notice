@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'kr.junroot'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jsoup:jsoup:1.14.3'
+    implementation project(':hy-notice-core')
+
+    testImplementation 'org.mockito:mockito-inline:4.2.0'
+}
+
+test {
+    useJUnitPlatform()
+}
