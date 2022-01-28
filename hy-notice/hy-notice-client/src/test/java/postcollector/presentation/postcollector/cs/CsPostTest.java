@@ -1,6 +1,6 @@
 package postcollector.presentation.postcollector.cs;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import core.domain.Board;
 import core.domain.Post;

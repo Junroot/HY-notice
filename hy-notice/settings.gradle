@@ -1,4 +1,4 @@
-rootProject.name = 'post-collector'
+rootProject.name = 'hy-notice'
 include 'hy-notice-core'
 include 'hy-notice-client'
 
