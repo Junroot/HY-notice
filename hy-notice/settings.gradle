@@ -1,5 +1,5 @@
 rootProject.name = 'hy-notice'
 include 'hy-notice-core'
 include 'hy-notice-client'
-include 'hy-notcie-api'
+include 'hy-notice-api'
 

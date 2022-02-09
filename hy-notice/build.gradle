@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 repositories {
@@ -8,9 +10,12 @@ repositories {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
     group 'kr.junroot'
     version '1.0-SNAPSHOT'
+    sourceCompatibility = 11
 
     repositories {
         mavenCentral()
