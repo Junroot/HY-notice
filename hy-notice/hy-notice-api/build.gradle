@@ -7,7 +7,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
+    implementation('org.springframework.boot:spring-boot-starter-web:2.6.3') {
+        exclude module: "spring-boot-starter-logging"
+    }
     implementation 'com.rometools:rome:1.18.0'
     implementation project(':hy-notice-core')
 }

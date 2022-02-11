@@ -1,12 +1,3 @@
 spring:
-  datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/hy-notice
-    username: root
-    password: root
-    driver-class-name: org.mariadb.jdbc.Driver
-  jpa:
-    generate-ddl: true
-    properties:
-      dialect: org.hibernate.dialect.MySQL5Dialect
-    hibernate:
-      ddl-auto: update
+  profiles:
+    active: local
