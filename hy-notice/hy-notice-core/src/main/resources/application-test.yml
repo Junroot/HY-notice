@@ -1,8 +1,5 @@
 spring:
   datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/hy-notice
-    username: root
-    password: root
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     properties:
@@ -13,4 +10,4 @@ spring:
       ddl-auto: validate
 
 logging:
-  config: classpath:log4j2-local.xml
+  config: classpath:log4j2-test.xml

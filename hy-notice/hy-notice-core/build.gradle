@@ -9,6 +9,10 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation 'org.flywaydb:flyway-core:8.4.4'
+}
+
 test {
     useJUnitPlatform()
 }
