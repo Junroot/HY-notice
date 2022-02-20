@@ -5,7 +5,7 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="hynotice.api.presentation.controller.RssFeedController" level = "debug" additivity="false">
+    <Logger name="hynotice" level = "debug" additivity="false">
       <AppenderRef ref="RollingFile"/>
     </Logger>
     <Root level = "info" additivity="false">

@@ -1,11 +1,14 @@
 package hynotice.postcollector.presentation.controller;
 
+import hynotice.core.configuration.ExceptionTracer;
 import hynotice.core.domain.Post;
 import hynotice.core.domain.repository.PostRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,38 +20,42 @@ import hynotice.postcollector.presentation.postcollector.PostCollectors;
 @Component
 public class PostCollectorController {
 
+    private static final Logger LOGGER = LogManager.getLogger(PostCollectorController.class);
     private static final Supplier<LocalDate> DEFAULT_COLLECTING_DATE = () -> LocalDate.now()
         .minusMonths(2);
 
     private final PostCollectors postCollectors;
     private final CollectingMetaDataRepository collectingMetaDataRepository;
     private final PostRepository postRepository;
+    private final ExceptionTracer exceptionTracer;
 
-    public PostCollectorController(final List<PostCollector> postCollectors,
-                                   final CollectingMetaDataRepository collectingMetaDataRepository,
-                                   final PostRepository postRepository) {
+    public PostCollectorController(
+        final List<PostCollector> postCollectors,
+        final CollectingMetaDataRepository collectingMetaDataRepository,
+        final PostRepository postRepository, final ExceptionTracer exceptionTracer) {
         this.postCollectors = new PostCollectors(postCollectors);
         this.collectingMetaDataRepository = collectingMetaDataRepository;
         this.postRepository = postRepository;
+        this.exceptionTracer = exceptionTracer;
     }
 
     @Scheduled(cron = "0 0/30 * * * ?")
     @Transactional
     public void collectAndSavePosts() {
         try {
-            System.out.println("[커맨드라인러너 시작]");
+            LOGGER.info("[커맨드라인러너 시작]");
             List<Post> newPosts = collectNewPosts();
 
             for (Post post : newPosts) {
-                System.out.printf("%s\t%s\t%s%n", post.getTitle(), post.getUrl(),
-                    post.getWritingDate());
+                LOGGER.info(String.format("%s\t%s\t%s%n", post.getTitle(), post.getUrl(),
+                    post.getWritingDate()));
             }
             postRepository.saveAll(newPosts);
             collectingMetaDataRepository.save(new CollectingMetaData((long) newPosts.size()));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(exceptionTracer.getStackTrace(e));
         } finally {
-            System.out.println("[커맨드라인러너 끝]");
+            LOGGER.info("[커맨드라인러너 끝]");
         }
     }
 
