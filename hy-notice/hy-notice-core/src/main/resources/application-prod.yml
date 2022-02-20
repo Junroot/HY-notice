@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://172.26.9.235:3306/hy-notice
+    url: jdbc:mariadb://172.26.2.139:3306/hy-notice
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     properties:
