@@ -20,16 +20,16 @@ import hynotice.postcollector.presentation.postcollector.template.PaginationPost
 @Component
 public class CsPostCollector extends PaginationPostCollector<CsPost> {
 
-    private static final String BASE_URL = "http://cs.hanyang.ac.kr/board";
+    private static final String BASE_URL = "http://cs.hanyang.ac.kr";
     private static final EnumMap<Board, String> URL_FORMATS = new EnumMap<>(Board.class);
     private static final int POST_NUMBER_INDEX = 1;
     private static final int POST_TITLE_INDEX = 2;
     private static final int POST_WRITING_DATE_INDEX = 4;
 
     static {
-        URL_FORMATS.put(Board.CS_INFO, "%s/info_board.php?ptype=&page=%d&code=notice");
-        URL_FORMATS.put(Board.CS_JOB, "%s/job_board.php?ptype=&page=%d&code=job_board");
-        URL_FORMATS.put(Board.CS_GRADUATE, "%s/gradu_board.php?ptype=&page=%d&code=gradu_board");
+        URL_FORMATS.put(Board.CS_INFO, "%s/board/info_board.php?ptype=&page=%d&code=notice");
+        URL_FORMATS.put(Board.CS_JOB, "%s/board/job_board.php?ptype=&page=%d&code=job_board");
+        URL_FORMATS.put(Board.CS_GRADUATE, "%s/board/gradu_board.php?ptype=&page=%d&code=gradu_board");
     }
 
     @Override
@@ -60,7 +60,6 @@ public class CsPostCollector extends PaginationPostCollector<CsPost> {
         return posts.stream()
             .map(this::convertFromElementToCsPost)
             .collect(Collectors.toList());
-
     }
 
     private Document getDocument(final Board board, final int pageNumber) throws IOException {

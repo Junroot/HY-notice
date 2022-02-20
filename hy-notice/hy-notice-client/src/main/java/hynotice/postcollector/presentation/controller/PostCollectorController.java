@@ -43,7 +43,7 @@ public class PostCollectorController {
     @Transactional
     public void collectAndSavePosts() {
         try {
-            LOGGER.info("[커맨드라인러너 시작]");
+            LOGGER.info("크롤링 시작");
             List<Post> newPosts = collectNewPosts();
 
             for (Post post : newPosts) {
@@ -55,7 +55,7 @@ public class PostCollectorController {
         } catch (Exception e) {
             LOGGER.error(exceptionTracer.getStackTrace(e));
         } finally {
-            LOGGER.info("[커맨드라인러너 끝]");
+            LOGGER.info("크롤링 끝");
         }
     }
 

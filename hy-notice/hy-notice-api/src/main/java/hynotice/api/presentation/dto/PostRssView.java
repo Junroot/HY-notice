@@ -1,6 +1,7 @@
 package hynotice.api.presentation.dto;
 
 import com.rometools.rome.feed.rss.Channel;
+import com.rometools.rome.feed.rss.Description;
 import com.rometools.rome.feed.rss.Item;
 import hynotice.core.domain.Post;
 import java.sql.Date;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 
 public class PostRssView extends AbstractRssFeedView {
@@ -36,9 +38,11 @@ public class PostRssView extends AbstractRssFeedView {
     @Override
     protected void buildFeedMetadata(final Map<String, Object> model,
                                      final Channel feed, HttpServletRequest request) {
+        feed.setFeedType("rss_2.0");
         feed.setTitle(FEED_TITLE);
         feed.setDescription(FEED_TITLE);
         feed.setLink(FEED_LINK);
+        setContentType(MediaType.TEXT_XML_VALUE);
     }
 
     @Override

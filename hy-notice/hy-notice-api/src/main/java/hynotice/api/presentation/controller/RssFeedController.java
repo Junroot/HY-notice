@@ -16,7 +16,7 @@ public class RssFeedController {
         this.postRepository = postRepository;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/rss", produces = "text/xml; charset=utf-8")
     public PostRssView getPosts() {
         List<Post> posts = postRepository.findAll();
         return new PostRssView(posts);
