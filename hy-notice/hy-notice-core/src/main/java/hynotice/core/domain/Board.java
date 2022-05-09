@@ -16,7 +16,14 @@ public enum Board {
     HY_INDUSTRY(9L, "한양대학교-산학/연구"),
     HY_EVENT(10L, "한양대학교-행사"),
     HY_SCHOLARSHIP(11L, "한양대학교-장학"),
-    HY_CONFERENCE(12L, "한양대학교-학회/세미나");
+    HY_CONFERENCE(12L, "한양대학교-학회/세미나"),
+    DORMITORY_DIRECT(13L, "학생생활관-대학직영기숙사"),
+    DORMITORY_HAPPY(14L, "학생생활관-행복기숙사"),
+    DORMITORY_RC(15L, "학생생활관-상담안내"),
+    DORMITORY_STRUCTURE(16L, "학생생활관_자료안내"),
+    DORMITORY_ENROLLED_STUDENT(17L, "학생생활관-학부 재학생/일반 대학원생"),
+    DORMITORY_FRESHMAN(18L, "학생생활관-학부 신입생"),
+    DORMITORY_ADDITION(19L, "학생생활관-추가모집");
 
     private static final Map<Long, Board> BOARDS = Arrays.stream(Board.values())
         .collect(Collectors.toMap(Board::getId, board -> board));

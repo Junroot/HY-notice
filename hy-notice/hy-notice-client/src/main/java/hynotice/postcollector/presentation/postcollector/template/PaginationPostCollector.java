@@ -6,22 +6,22 @@ import static java.util.stream.Collectors.toList;
 import hynotice.core.domain.Board;
 import hynotice.core.domain.Post;
 import hynotice.core.domain.Posts;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
 import hynotice.postcollector.domain.Postable;
 import hynotice.postcollector.exception.CollectingException;
 import hynotice.postcollector.presentation.postcollector.PostCollector;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public abstract class PaginationPostCollector<T extends Postable> implements PostCollector {
 
     @Override
     public List<Post> collectNewPosts(final LocalDate fromDate) {
         Posts result = new Posts();
-        Map<Board, String> urlFormats = getUrlFormats();
-        for (Board board : urlFormats.keySet()) {
+        Set<Board> boards = getBoards();
+        for (Board board : boards) {
             result.addAll(collectNewPostsFromBoard(board, fromDate));
         }
 
@@ -41,11 +41,12 @@ public abstract class PaginationPostCollector<T extends Postable> implements Pos
         return result;
     }
 
-    protected Posts collectPosts(final Board board, final int pageNumber, final Predicate<T> filter) {
+    protected Posts collectPosts(final Board board, final int pageNumber,
+                                 final Predicate<T> filter) {
         try {
             return collectAllPostsInPage(board, pageNumber).stream()
                 .filter(filter)
-                .map(csPost -> csPost.convert(board))
+                .map(post -> post.convert(board))
                 .collect(collectingAndThen(toList(), Posts::new));
         } catch (IOException e) {
             throw new CollectingException("요청을 보내는데 실패했습니다.");
@@ -54,7 +55,7 @@ public abstract class PaginationPostCollector<T extends Postable> implements Pos
 
     protected abstract Predicate<T> getDefaultPostFilter();
 
-    protected abstract Map<Board, String> getUrlFormats();
+    protected abstract Set<Board> getBoards();
 
     protected abstract Posts initiatePosts(final Board board, final LocalDate fromDate);
 

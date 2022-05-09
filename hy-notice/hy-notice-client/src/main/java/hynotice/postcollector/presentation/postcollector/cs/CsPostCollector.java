@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
@@ -38,8 +39,8 @@ public class CsPostCollector extends PaginationPostCollector<CsPost> {
     }
 
     @Override
-    protected Map<Board, String> getUrlFormats() {
-        return URL_FORMATS;
+    protected Set<Board> getBoards() {
+        return URL_FORMATS.keySet();
     }
 
     @Override
