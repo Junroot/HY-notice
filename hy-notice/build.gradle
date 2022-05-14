@@ -28,15 +28,31 @@ subprojects {
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
         implementation 'org.springframework.boot:spring-boot-starter-log4j2:2.6.3'
-
         implementation ('org.springframework.boot:spring-boot-starter-data-jpa:2.6.2') {
             exclude module: "spring-boot-starter-logging"
         }
+        implementation 'com.querydsl:querydsl-apt:5.0.0'
+        implementation 'com.querydsl:querydsl-jpa:5.0.0'
+        annotationProcessor(
+                "javax.persistence:javax.persistence-api",
+                "javax.annotation:javax.annotation-api",
+                "com.querydsl:querydsl-apt:5.0.0:jpa")
         implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
 
+        testImplementation ('org.springframework.boot:spring-boot-starter-test:2.6.7') {
+            exclude module: "spring-boot-starter-logging"
+        }
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
         testImplementation 'org.assertj:assertj-core:3.22.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+            }
+        }
     }
 
     test {
