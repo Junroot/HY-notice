@@ -1,7 +1,7 @@
 package hynotice.api.presentation.controller;
 
 import hynotice.api.presentation.dto.PostRssView;
-import hynotice.api.presentation.service.PostService;
+import hynotice.api.service.PostService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

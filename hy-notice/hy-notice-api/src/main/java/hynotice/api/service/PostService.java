@@ -1,4 +1,4 @@
-package hynotice.api.presentation.service;
+package hynotice.api.service;
 
 import hynotice.core.domain.Post;
 import hynotice.core.domain.repository.PostRepository;
