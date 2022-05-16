@@ -46,6 +46,10 @@ public class Post {
         this.writingDate = writingDate;
     }
 
+    public boolean containsInTitle(final String keyword) {
+        return title.contains(keyword);
+    }
+
     public boolean isEqualOrAfterDate(final LocalDate localDate) {
         return writingDate.isAfter(localDate) || writingDate.isEqual(localDate);
     }
