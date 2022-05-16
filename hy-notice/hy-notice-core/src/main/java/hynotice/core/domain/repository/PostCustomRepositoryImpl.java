@@ -28,7 +28,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
 
         return jpaQueryFactory.selectFrom(post)
             .where(booleanBuilder)
-            .orderBy(post.writingDate.desc())
+            .orderBy(post.createdAt.desc())
             .offset((long) (page - 1) * pageSize).limit(pageSize)
             .fetch();
     }
