@@ -32,7 +32,8 @@ public class PostRepositoryTest {
                 LocalDate.now()));
 
         assertThat(postRepository.findAllByAnyKeyword(
-            List.of(new Keyword("한양대"), new Keyword("공지")))
+            List.of(new Keyword("한양대"), new Keyword("공지")),
+            0, 12)
         ).hasSize(2);
     }
 }

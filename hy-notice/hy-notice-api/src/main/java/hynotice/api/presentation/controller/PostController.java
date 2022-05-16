@@ -21,7 +21,8 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostResponse>> getPostsByKeywords(
-        @RequestParam List<String> keywords) {
-        return ResponseEntity.ok(postService.getPostsByKeywords(keywords));
+        @RequestParam(required = false, defaultValue = "") List<String> keywords,
+        @RequestParam(required = false, defaultValue = "1") int page) {
+        return ResponseEntity.ok(postService.getPostsByKeywords(keywords, page));
     }
 }

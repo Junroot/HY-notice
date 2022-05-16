@@ -19,7 +19,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public List<Post> findAllByAnyKeyword(final List<Keyword> keywords) {
+    public List<Post> findAllByAnyKeyword(List<Keyword> keywords, int page, int pageSize) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         for (Keyword keyword : keywords) {
@@ -29,6 +29,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         return jpaQueryFactory.selectFrom(post)
             .where(booleanBuilder)
             .orderBy(post.writingDate.desc())
+            .offset((long) (page - 1) * pageSize).limit(pageSize)
             .fetch();
     }
 }

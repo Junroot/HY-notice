@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PostCustomRepository {
 
-    List<Post> findAllByAnyKeyword(final List<Keyword> keywords);
+    List<Post> findAllByAnyKeyword(List<Keyword> keywords, int page, int pageSize);
 }
