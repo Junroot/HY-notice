@@ -4,6 +4,7 @@ import static hynotice.core.domain.QPost.post;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import hynotice.core.domain.Keyword;
 import hynotice.core.domain.Post;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -18,11 +19,11 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public List<Post> findAllByAnyKeyword(final List<String> keywords) {
+    public List<Post> findAllByAnyKeyword(final List<Keyword> keywords) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        for (String keyword : keywords) {
-            booleanBuilder.or(post.title.contains(keyword));
+        for (Keyword keyword : keywords) {
+            booleanBuilder.or(post.title.contains(keyword.getValue()));
         }
 
         return jpaQueryFactory.selectFrom(post)

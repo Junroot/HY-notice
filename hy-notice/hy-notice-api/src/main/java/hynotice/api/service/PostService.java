@@ -1,6 +1,7 @@
 package hynotice.api.service;
 
 import hynotice.api.presentation.dto.PostResponse;
+import hynotice.core.domain.Keyword;
 import hynotice.core.domain.Post;
 import hynotice.core.domain.repository.PostRepository;
 import java.util.List;
@@ -26,7 +27,8 @@ public class PostService {
             .getContent();
     }
 
-    public List<PostResponse> getPostsByKeywords(final List<String> keywords) {
+    public List<PostResponse> getPostsByKeywords(final List<String> keywordValues) {
+        List<Keyword> keywords = convertToKeyWordsByValues(keywordValues);
         List<Post> posts = postRepository.findAllByAnyKeyword(keywords);
 
         return posts.stream()
@@ -34,8 +36,15 @@ public class PostService {
             .collect(Collectors.toList());
     }
 
-    private List<String> filterContainingKeywords(final Post post, final List<String> keywords) {
+    private List<Keyword> convertToKeyWordsByValues(final List<String> keywordValues) {
+        return keywordValues.stream()
+            .map(Keyword::new)
+            .collect(Collectors.toList());
+    }
+
+    private List<String> filterContainingKeywords(final Post post, final List<Keyword> keywords) {
         return keywords.stream()
+            .map(Keyword::getValue)
             .filter(post::containsInTitle)
             .collect(Collectors.toList());
     }
