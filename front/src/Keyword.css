@@ -1,0 +1,24 @@
+.keyword-wrapper {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    float: left;
+}
+
+.keyword-delete {
+    position: relative;
+    visibility: hidden;
+    z-index: 900;
+    top: 0px;
+    left: 0px;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.keyword-content {
+    position: relative;
+    left: -12px;
+    top: 16px;
+}
