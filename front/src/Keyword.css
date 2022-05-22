@@ -7,10 +7,14 @@
 
 .keyword-delete {
     position: relative;
-    visibility: hidden;
     z-index: 900;
     top: 0px;
     left: 0px;
+}
+
+.keyword-delete:hover{
+    background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) );
+    cursor: pointer;
 }
 
 .visible {
