@@ -29,11 +29,34 @@ public class PostRepositoryTest {
             new Post("새로운 공지입니다.", Board.HY_SCHOLARSHIP, "https://google2.com", LocalDate.now()));
         postRepository.save(
             new Post("이 글을 검색하지마세요.", Board.HY_SCHOLARSHIP, "https://google3.com",
-                LocalDate.now()));
+                LocalDate.now())
+        );
 
-        assertThat(postRepository.findAllByAnyKeyword(
+        assertThat(postRepository.findAllByAnyIncludedAndExcludedKeywords(
             List.of(new Keyword("한양대"), new Keyword("공지")),
-            0, 12)
+            List.of(),
+            1,
+            12)
         ).hasSize(2);
+    }
+
+    @DisplayName("포함 키워드 및 제외 키워드를 이용한 게시글 검색")
+    @Test
+    void findAllByIncludedAndExcludedKeyword() {
+        postRepository.save(
+            new Post("한양대 공지", Board.HY_SCHOLARSHIP, "https://google.com", LocalDate.now()));
+        postRepository.save(
+            new Post("새로운 공지입니다.", Board.HY_SCHOLARSHIP, "https://google2.com", LocalDate.now()));
+        postRepository.save(
+            new Post("이 글을 검색하지마세요.", Board.HY_SCHOLARSHIP, "https://google3.com",
+                LocalDate.now())
+        );
+
+        assertThat(postRepository.findAllByAnyIncludedAndExcludedKeywords(
+            List.of(new Keyword("공지")),
+            List.of(new Keyword("한양대")),
+            1,
+            12
+        )).hasSize(1);
     }
 }

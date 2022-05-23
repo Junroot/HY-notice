@@ -30,15 +30,23 @@ public class PostService {
             .getContent();
     }
 
-    public List<PostResponse> getPostsByKeywords(final List<String> keywordValues, final int page) {
+    public List<PostResponse> getPostsByKeywords(final List<String> includedKeywordValues,
+                                                 final List<String> excludedKeywordValues,
+                                                 final int page) {
         if (page < 1) {
             throw new ExpectedException("페이지는 1부터 시작합니다.");
         }
-        List<Keyword> keywords = convertToKeyWordsByValues(keywordValues);
-        List<Post> posts = postRepository.findAllByAnyKeyword(keywords, page, POST_PAGE_SIZE);
+        List<Keyword> includedKeywords = convertToKeyWordsByValues(includedKeywordValues);
+        List<Keyword> excludedKeywords = convertToKeyWordsByValues(excludedKeywordValues);
+        List<Post> posts = postRepository.findAllByAnyIncludedAndExcludedKeywords(
+            includedKeywords,
+            excludedKeywords,
+            page,
+            POST_PAGE_SIZE
+        );
 
         return posts.stream()
-            .map(post -> PostResponse.from(post, filterContainingKeywords(post, keywords)))
+            .map(post -> PostResponse.from(post, filterContainingKeywords(post, includedKeywords)))
             .collect(Collectors.toList());
     }
 

@@ -6,5 +6,10 @@ import java.util.List;
 
 public interface PostCustomRepository {
 
-    List<Post> findAllByAnyKeyword(List<Keyword> keywords, int page, int pageSize);
+    List<Post> findAllByAnyIncludedAndExcludedKeywords(
+        final List<Keyword> includedKeywords,
+        final List<Keyword> excludedKeywords,
+        int page,
+        int pageSize
+    );
 }
