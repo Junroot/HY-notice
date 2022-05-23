@@ -12,15 +12,19 @@ class App extends Component {
     super(props);
     
     document.title = "HY-notice";
-    let keywords = [];
-    if (localStorage.getItem('keywords')) {
-      keywords = JSON.parse(localStorage.getItem('keywords'));
+    let includedKeywords = [];
+    if (localStorage.getItem('includedKeywords')) {
+      includedKeywords = JSON.parse(localStorage.getItem('includedKeywords'));
+    }
+    let excludedKeywords = [];
+    if (localStorage.getItem('excludedKeywords')) {
+      excludedKeywords = JSON.parse(localStorage.getItem('excludedKeywords'));
     }
     let readIds = new Set();
     if (localStorage.getItem('readIds')) {
       readIds = new Set(JSON.parse(localStorage.getItem('readIds')));
     }
-    this.state = {keywords: keywords, readIds: readIds};
+    this.state = {includedKeywords: includedKeywords, excludedKeywords: excludedKeywords, readIds: readIds};
     this.regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
   }
 
@@ -41,17 +45,26 @@ class App extends Component {
     return color;
   }
 
-  deleteKeyword(id) {
+  deleteIncludedKeyword(id) {
     this.setState(state => {
         return {
-            keywords: state.keywords.slice(0, id).concat(state.keywords.slice(id + 1))
+            includedKeywords: state.includedKeywords.slice(0, id).concat(state.includedKeywords.slice(id + 1))
         }
-    })
+    });
+  }
+
+  deleteExcludedKeyword(id) {
+    this.setState(state => {
+      return {
+          excludedKeywords: state.excludedKeywords.slice(0, id).concat(state.excludedKeywords.slice(id + 1))
+      }
+    });
   }
 
   componentDidUpdate() {
-    localStorage.setItem('keywords', JSON.stringify(this.state.keywords))
-    localStorage.setItem('readIds', JSON.stringify(Array.from(this.state.readIds)))
+    localStorage.setItem('includedKeywords', JSON.stringify(this.state.includedKeywords));
+    localStorage.setItem('excludedKeywords', JSON.stringify(this.state.excludedKeywords));
+    localStorage.setItem('readIds', JSON.stringify(Array.from(this.state.readIds)));
   }
 
   readId(id) {
@@ -62,8 +75,13 @@ class App extends Component {
     this.setState(state => {return {readIds: newReadIds}})
   }
 
-  addKeyword(newKeyword) {
-    this.setState(state => {return {keywords: state.keywords.concat({name: newKeyword, color:this.strToColor(newKeyword)})}});
+  addIncludedKeyword(newKeyword) {
+    this.setState(state => {return {includedKeywords: state.includedKeywords.concat({name: newKeyword, color:this.strToColor(newKeyword)})}});
+    this.setState({keywordModalShow: false});
+  }
+
+  addExcludedKeyword(newKeyword) {
+    this.setState(state => {return {excludedKeywords: state.excludedKeywords.concat({name: newKeyword, color: "#000000"})}});
     this.setState({keywordModalShow: false});
   }
 
@@ -76,7 +94,25 @@ class App extends Component {
       return false;
     }
 
-    return !this.state.keywords.includes(newKeyword);
+    if (this.state.includedKeywords.length + this.state.excludedKeywords.length >= 40) {
+      return false;
+    }
+
+    for (const i in this.state.includedKeywords) {
+      const keyword = this.state.includedKeywords[i].name;
+      if (keyword === newKeyword) {
+        return false;
+      }
+    }
+
+    for (const i in this.state.excludedKeywords) {
+      const keyword = this.state.excludedKeywords[i].name;
+      if (keyword === newKeyword) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   render() {
@@ -85,10 +121,13 @@ class App extends Component {
         <Header></Header>
         <Container className="bg-light">
           <Row>
-            <Keywords keywords={this.state.keywords} isValidKeyword={this.isValidKeyword.bind(this)} deleteKeyword={this.deleteKeyword.bind(this)} componentDidUpdate={this.componentDidUpdate.bind(this)} addKeyword={this.addKeyword.bind(this)}></Keywords>
+            <Keywords title="포함 키워드" keywords={this.state.includedKeywords} isValidKeyword={this.isValidKeyword.bind(this)} deleteKeyword={this.deleteIncludedKeyword.bind(this)} componentDidUpdate={this.componentDidUpdate.bind(this)} addKeyword={this.addIncludedKeyword.bind(this)}></Keywords>
           </Row>
           <Row>
-            <Posts keywords={this.state.keywords} readIds={this.state.readIds} readId={this.readId.bind(this)}></Posts>
+            <Keywords title="제외 키워드" keywords={this.state.excludedKeywords} isValidKeyword={this.isValidKeyword.bind(this)} deleteKeyword={this.deleteExcludedKeyword.bind(this)} componentDidUpdate={this.componentDidUpdate.bind(this)} addKeyword={this.addExcludedKeyword.bind(this)}></Keywords>
+          </Row>
+          <Row>
+            <Posts includedKeywords={this.state.includedKeywords} excludedKeywords={this.state.excludedKeywords} readIds={this.state.readIds} readId={this.readId.bind(this)}></Posts>
           </Row>
         </Container>
       </Container>

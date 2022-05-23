@@ -28,7 +28,7 @@ class Keywords extends Component {
                     <Container fluid>
                         <Row>
                             <Col md="10">
-                                <h2>키워드</h2>
+                                <h2>{this.props.title}</h2>
                             </Col>
                             <Col md="2">
                                 <Button className="w-100" size="sm" onClick={this.showModal.bind(this)}>추가하기</Button>

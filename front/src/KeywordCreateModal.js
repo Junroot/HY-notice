@@ -39,8 +39,8 @@ class KeywordCreateModal extends Component {
 
     render() {
         return (
-            <Modal show={this.props.show}>
-                <Modal.Header closeButton>
+            <Modal show={this.props.show} centered={true}>
+                <Modal.Header>
                     <Modal.Title>추가할 키워드를 입력해주세요.</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -54,7 +54,9 @@ class KeywordCreateModal extends Component {
                             autoFocus
                         />
                         <Form.Text id="keywordHelpBlock" muted>
-                            키워드는 2~20자의 한글, 영어, 숫자로 구성할 수 있습니다.
+                            <div>키워드는 2~20자의 한글, 영어, 숫자로 구성할 수 있습니다.</div>
+                            <div>이미 등록된 키워드는 다시 등록할 수 없습니다.</div>
+                            <div>키워드는 최대 40개까지 등록이 가능합니다.</div>
                         </Form.Text>
                     </Form.Group>
                 </Modal.Body>
